@@ -4,3 +4,4 @@ Build/*
 obj/*
 .DS_Store
 *.meta
+*.suo

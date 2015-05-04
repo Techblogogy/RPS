@@ -14,6 +14,12 @@ public class Player : MonoBehaviour
 	private Vector3 r_hitPoint; //Raycast Hit Point
 	private float r_distance; //Raycast Distance
 	private Plane r_plane; //Raycast Plane
+    private Ray r_ray; //Raycast ray
+
+    //Player Fire
+    public float f_distance = 10.0f; //Fire Distance
+    private RaycastHit f_hit; //Fire Raycast Hit
+    private int f_layer = 1 << 8; //Fire Layer
 
 	void Awake () 
 	{
@@ -28,12 +34,13 @@ public class Player : MonoBehaviour
 		Fire (); //Handle Shooting
 	}
 
+    //Player Rotation Logic
 	private void Rotate()
 	{
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition); //Mouse Click Ray
-        if (r_plane.Raycast(ray, out r_distance))
+        r_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (r_plane.Raycast(r_ray, out r_distance))
 		{
-            r_hitPoint = ray.GetPoint(r_distance);
+            r_hitPoint = r_ray.GetPoint(r_distance);
             this.transform.LookAt(new Vector3(
                 r_hitPoint.x, 
                 this.transform.position.y, 
@@ -41,6 +48,7 @@ public class Player : MonoBehaviour
 		}
 	}
 
+    //Player Move Logic
 	private void Move()
 	{
         if (m_controller.isGrounded)
@@ -53,6 +61,7 @@ public class Player : MonoBehaviour
         m_controller.Move(m_direction * Time.deltaTime);
 	}
 
+    //Player Weapon Fire Logic
 	private void Fire()
 	{
 		if (Input.GetButtonDown("Fire1"))
@@ -61,9 +70,14 @@ public class Player : MonoBehaviour
 			float dist = head.magnitude;
 			Vector3 direct = head / dist;
 
+            if (Physics.Raycast(this.transform.position, direct, out f_hit, f_distance, f_layer)) 
+            {
+                Destroy(f_hit.collider.gameObject);
+            }
+
 			Debug.DrawRay(this.transform.position,
-			              direct*100, 
-			              Color.green, 10);
+			              direct*100,
+                          Color.green, f_distance);
 		}
 	}
 }
