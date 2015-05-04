@@ -3,88 +3,67 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
-	public float vel = 6.0f; //Velocity
-	public float grv = 20.0f; //Gravity
+    //Player Move
+	public float m_vel = 6.0f; //Player Velocity
+	public float m_grv = 20.0f; //Player Gravity
 
-	private Vector3 dir; //Movement Direction Vector
-	private CharacterController charC; //Character Controller
+    private CharacterController m_controller; //Player Character Controller 
+    private Vector3 m_direction; //Player Direction
 
-	private float hit;
-	private Vector3 tmpHt;
+    //Mouse Look
+	private Vector3 r_hitPoint; //Raycast Hit Point
+	private float r_distance; //Raycast Distance
+	private Plane r_plane; //Raycast Plane
 
-	private Plane pl;
-
-//	public GameObject pOG;
-//	public GameObject plOb;
-
-	void Start () 
+	void Awake () 
 	{
-		charC = this.gameObject.AddComponent<CharacterController> ();
-
-		pl = new Plane(Vector3.up, new Vector3(0,1.205f,0));
+        m_controller = this.gameObject.AddComponent<CharacterController>(); //Get Character Controller
+        r_plane = new Plane(Vector3.up, new Vector3(0, 1.205f, 0)); //Get Raycast Plane
 	}
 
 	void Update () 
 	{
-//		plOb.transform.position = this.transform.position;
-
-		Rotate ();
-		Move ();
-		Fire ();
+		Rotate (); //Handle Rotation
+		Move (); //Handle Movement
+		Fire (); //Handle Shooting
 	}
 
 	private void Rotate()
 	{
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-//		Debug.DrawRay(Vector3.up, Vector3.zero, Color.red, 100);
-
-//		Debug.Log (Camera.main.ScreenToWorldPoint (Input.mousePosition));
-
-		if (pl.Raycast(ray, out hit) )
+		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition); //Mouse Click Ray
+        if (r_plane.Raycast(ray, out r_distance))
 		{
-			tmpHt = ray.GetPoint(hit);//hit.point;
-//			tmpHt = new Vector3(tmpHt.x, this.transform.position.y, tmpHt.z);
-			this.transform.LookAt(new Vector3(tmpHt.x, this.transform.position.y, tmpHt.z));
-
-//			pOG.transform.position = tmpHt;
+            r_hitPoint = ray.GetPoint(r_distance);
+            this.transform.LookAt(new Vector3(
+                r_hitPoint.x, 
+                this.transform.position.y, 
+                r_hitPoint.z));
 		}
-
-//		Debug.Log ();
-//		hit = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-//		Debug.Log (hit);
-//		this.transform.LookAt(new Vector3(hit.x, this.transform.position.y, hit.z));
 	}
 
 	private void Move()
 	{
-		if (charC.isGrounded)
+        if (m_controller.isGrounded)
 		{
-			dir = new Vector3(-Input.GetAxis("Vertical"), 0, Input.GetAxis("Horizontal"));
-//			dir = transform.TransformDirection(dir);
-			dir *= vel;
+            m_direction = new Vector3(-Input.GetAxis("Vertical"), 0, Input.GetAxis("Horizontal"));
+            m_direction *= m_vel;
 		}
 
-		dir.y -= grv * Time.deltaTime;
-		charC.Move (dir * Time.deltaTime);
+		m_direction.y -= m_grv * Time.deltaTime;
+        m_controller.Move(m_direction * Time.deltaTime);
 	}
 
 	private void Fire()
 	{
-		Debug.Log (Input.GetButtonDown("Fire1"));
-
 		if (Input.GetButtonDown("Fire1"))
 		{
-			Vector3 head = tmpHt - this.transform.position;
+            Vector3 head = r_hitPoint - this.transform.position;
 			float dist = head.magnitude;
 			Vector3 direct = head / dist;
 
 			Debug.DrawRay(this.transform.position,
 			              direct*100, 
 			              Color.green, 10);
-
-//			Debug.DrawRay(this.transform.position,
-//			              transform.TransformDirection(Vector3.forward)*10, 
-//			              Color.green, 10);
 		}
 	}
 }
