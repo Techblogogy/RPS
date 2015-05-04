@@ -76,8 +76,8 @@ public class Player : MonoBehaviour
             }
 
 			Debug.DrawRay(this.transform.position,
-			              direct*100,
-                          Color.green, f_distance);
+			              direct*f_distance,
+                          Color.green, 10);
 		}
 	}
 }
