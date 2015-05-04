@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player.cs">
     <Files>
-      <File FileName="Assets/Scripts/Player.cs" Line="14" Column="33" />
-      <File FileName="Assets/Scripts/PlayerCam.cs" Line="20" Column="1" />
+      <File FileName="Assets/Scripts/Player.cs" Line="39" Column="35" />
+      <File FileName="Assets/Scripts/PlayerCam.cs" Line="25" Column="1" />
       <File FileName="Assets/Scripts/Enemy.cs" Line="16" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

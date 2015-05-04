@@ -10,6 +10,6 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void Update () {
-		na.SetDestination (pl.transform.position);
+        na.SetDestination(pl.transform.position);
 	}
 }
