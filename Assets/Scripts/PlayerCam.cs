@@ -9,11 +9,6 @@ public class PlayerCam : MonoBehaviour
 
 	private Vector3 mVec;
 
-	void Start () 
-	{
-		
-	}
-
 	void Update () 
 	{
 		mVec = new Vector3 (player.transform.position.x+offset, this.transform.position.y, player.transform.position.z-8.5f);
