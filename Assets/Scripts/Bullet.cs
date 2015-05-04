@@ -11,12 +11,12 @@ public class Bullet:MonoBehaviour
     void Start()
     {
         b_rig = this.GetComponent<Rigidbody>();
-        b_direction = transform.TransformDirection(Vector3.left);
+        b_direction = transform.TransformDirection(Vector3.forward);
     }
 
     void FixedUpdate()
     {
-        //b_rig.MovePosition(this.transform.position + b_direction*Time.deltaTime);
+        b_rig.MovePosition(this.transform.position + b_direction*b_velocity*Time.deltaTime);
         //this.transform.Translate(b_direction*b_velocity * Time.deltaTime);
     }
 }
