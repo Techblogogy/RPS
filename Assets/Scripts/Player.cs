@@ -82,11 +82,6 @@ public class Player : MonoBehaviour
 			              direct*100, 
 			              Color.green, 10);
 
-			if (Physics)
-			{
-
-			}
-
 //			Debug.DrawRay(this.transform.position,
 //			              transform.TransformDirection(Vector3.forward)*10, 
 //			              Color.green, 10);
